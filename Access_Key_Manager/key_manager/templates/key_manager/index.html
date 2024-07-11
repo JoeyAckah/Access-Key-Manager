@@ -10,39 +10,71 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="row">
+    {% if messages %}
+    
+    {% for message in messages %}
+       <h3 class="text-center text-info">{{message}}</h3>
+    {% endfor %}
+        
+        
+    {% endif %}
+    <div class="row p-4">
         <div class="col float-end w-100">
+            
+            {% if user.is_authenticated %}
+             <h5>{{user.username}}
+
+                 <a href="{% url 'account_logout' %}" class="float-end"><button class="btn btn-md btn-outline-primary"> Logout</button></a>
+             </h5>   
+            {% else %}
             <a href="{% url 'account_login' %}" class="float-end"><button class="btn btn-md btn-outline-primary">Login</button></a>
+            {% endif %}
         </div>
     </div>
-    <div class="container">
+    <div class="container-flex p-4">
+        <div class="row w-100">
+            
+                
+            <div class="col-lg-3 vh-100">
+                <h5>Filter Keys</h5><hr>
+                <a href="{% url 'index' %}?q="><p class="mb-4">ALL</p></a>
+                <a href="{% url 'index' %}?q=revoked"><p class="mb-4">REVOKED</p></a>
+                <a href="{% url 'index' %}?q=expired"><p class="mb-4">EXPIRED</p></a>
+                <a href="{% url 'index' %}?q=active"><p class="mb-4">ACTIVE</p></a>
+                <div class="row w-100 mt-5">
+                    <a href="{% url 'key-request' %}"><button class="btn btn-secondary w-100">New Key Request</button></a>
+                </div>
+            </div>
+            <div class="col-lg-9 vh-100">
+                <h1 class="display-6 mb-5">My Keys</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <th>Key</th>
+                        <th>Status</th>
+                        <th>Date Procured</th>
+                        <th>Expiry date</th>
+                    </thead>
+                    <tbody>
+                        {% for key in keys %}
+                        <tr>
+                            <td>{{key.key}}</td>
+                            {% if key.status == 'ACTIVE' %}
+                            <td class="text-success fw-bolder">{{key.status}}</td>
+                            {% elif key.status == 'REVOKED' %}
+                            <td class="text-info fw-bolder">{{key.status}}</td>
+                            {% else %}
+                            <td class="text-danger fw-bolder">{{key.status}}</td>
+                            {% endif %}
+                            <td>{{key.date_procured}}</td>
+                            <td>{{key.expiry_date}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+    
+            </div>
+            
 
-        <div class="col-lg-11 mx-auto">
-            <h1 class="display-6 my-5">welcome here</h1>
-            <table class="table table-striped">
-                <thead>
-                    <th>Key</th>
-                    <th>Status</th>
-                    <th>Date Procured</th>
-                    <th>Expiry date</th>
-                </thead>
-                <tbody>
-                    {% for key in keys %}
-                    <tr>
-                        <td>{{key.key}}</td>
-                        {% if key.status == 'ACTIVE' %}
-                        <td class="text-success fw-bolder">{{key.status}}</td>
-                        {% elif key.status == 'REVOKED' %}
-                        <td class="text-info fw-bolder">{{key.status}}</td>
-                        {% else %}
-                        <td class="text-danger fw-bolder">{{key.status}}</td>
-                        {% endif %}
-                        <td>{{key.date_procured}}</td>
-                        <td>{{key.expiry_date}} <small>About {{key.expiry_date|timeuntil}}</small></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
 
         </div>
 
