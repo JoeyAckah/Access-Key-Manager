@@ -1,95 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-         rel="stylesheet" 
-         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
-    <title>Document</title>
-</head>
-<body>
-    {% if messages %}
-    
-    {% for message in messages %}
-       <h3 class="text-center text-info">{{message}}</h3>
-    {% endfor %}
-        
-        
-    {% endif %}
-    <div class="row p-4">
-        <div class="col float-end w-100">
-            
-            {% if user.is_authenticated %}
-             <h5>{{user.username}}
+{% extends 'base.html' %}
 
-                 <a href="{% url 'account_logout' %}" class="float-end"><button class="btn btn-md btn-outline-primary"> Logout</button></a>
-             </h5>   
-            {% else %}
-            <a href="{% url 'account_login' %}" class="float-end"><button class="btn btn-md btn-outline-primary">Login</button></a>
-            {% endif %}
-        </div>
+
+{% block content %}
+<div class="row p-4">
+    <div class="col float-end w-100">
+        
+        {% if user.is_authenticated %}
+         <h5>{{user.username}}
+
+             <a href="{% url 'account_logout' %}" class="float-end"><button class="btn btn-md btn-outline-primary"> Logout</button></a>
+         </h5>   
+        {% else %}
+        <a href="{% url 'account_login' %}" class="float-end"><button class="btn btn-md btn-outline-primary">Login</button></a>
+        {% endif %}
     </div>
-    <div class="container-flex p-4">
-        <div class="row w-100">
+</div>
+<div class="container-flex p-4">
+    <div class="row w-100">
+        
             
-                
-            <div class="col-lg-3 vh-100">
-                <h5>Filter Keys</h5><hr>
-                <a href="{% url 'index' %}?q="><p class="mb-4">ALL</p></a>
-                <a href="{% url 'index' %}?q=revoked"><p class="mb-4">REVOKED</p></a>
-                <a href="{% url 'index' %}?q=expired"><p class="mb-4">EXPIRED</p></a>
-                <a href="{% url 'index' %}?q=active"><p class="mb-4">ACTIVE</p></a>
-                <div class="row w-100 mt-5">
-                    <a href="{% url 'key-request' %}"><button class="btn btn-secondary w-100">New Key Request</button></a>
-                </div>
+        <div class="col-lg-3 vh-100">
+            <h5>Filter Keys</h5><hr>
+            <a href="{% url 'index' %}?q="><p class="mb-4">ALL</p></a>
+            <a href="{% url 'index' %}?q=revoked"><p class="mb-4">REVOKED</p></a>
+            <a href="{% url 'index' %}?q=expired"><p class="mb-4">EXPIRED</p></a>
+            <a href="{% url 'index' %}?q=active"><p class="mb-4">ACTIVE</p></a>
+            <div class="row w-100 mt-5">
+                <a href="{% url 'key-request' %}"><button class="btn btn-secondary w-100">New Key Request</button></a>
             </div>
-            <div class="col-lg-9 vh-100">
-                <h1 class="display-6 mb-5">My Keys</h1>
-                <table class="table table-striped">
-                    <thead>
-                        <th>Key</th>
-                        <th>Status</th>
-                        <th>Date Procured</th>
-                        <th>Expiry date</th>
+        </div>
+        <div class="col-lg-9 vh-100">
+            <h1 class="display-6 mb-5">My Keys</h1>
+            <table class="table table-striped">
+                <thead>
+                    <th>Key</th>
+                    <th>Status</th>
+                    <th>Date Procured</th>
+                    <th>Expiry date</th>
+                    
+                    {% if request.user.is_superuser %}
+                        <th>Revoke</th>
+                    {% endif %}
+                        
+                </thead>
+                <tbody>
+                    {% for key in keys %}
+                    <tr>
+                        <td>{{key.key}}</td>
+                        {% if key.status == 'ACTIVE' %}
+                        <td class="text-success fw-bolder">{{key.status}}</td>
+                        {% elif key.status == 'REVOKED' %}
+                        <td class="text-info fw-bolder">{{key.status}}</td>
+                        {% else %}
+                        <td class="text-danger fw-bolder">{{key.status}}</td>
+                        {% endif %}
+                        <td>{{key.date_procured}}</td>
+                        <td>{{key.expiry_date}}</td>
                         
                         {% if request.user.is_superuser %}
-                            <th>Revoke</th>
+                            <td><a href="{% url 'revoke' key.id %}"><button class="btn btn-danger btn-md">Revoke</button></a></td>
                         {% endif %}
                             
-                    </thead>
-                    <tbody>
-                        {% for key in keys %}
-                        <tr>
-                            <td>{{key.key}}</td>
-                            {% if key.status == 'ACTIVE' %}
-                            <td class="text-success fw-bolder">{{key.status}}</td>
-                            {% elif key.status == 'REVOKED' %}
-                            <td class="text-info fw-bolder">{{key.status}}</td>
-                            {% else %}
-                            <td class="text-danger fw-bolder">{{key.status}}</td>
-                            {% endif %}
-                            <td>{{key.date_procured}}</td>
-                            <td>{{key.expiry_date}}</td>
-                            
-                            {% if request.user.is_superuser %}
-                                <td><a href="{% url 'revoke' key.id %}"><button class="btn btn-danger btn-md">Revoke</button></a></td>
-                            {% endif %}
-                                
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-    
-            </div>
-            
-
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
         </div>
+        
 
 
     </div>
 
-</body>
-</html>
+
+</div>
+{% endblock content %}
+    
+    

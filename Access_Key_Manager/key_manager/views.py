@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from .forms import SignUpForm
+
 from .models import Accesskey
 from django.db.models import Q
 from django.contrib import messages
@@ -62,9 +62,3 @@ def revoke(request, id):
     return redirect('index')
 
 
-def signup(request):
-    form = SignUpForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'account/signup.html', context)
