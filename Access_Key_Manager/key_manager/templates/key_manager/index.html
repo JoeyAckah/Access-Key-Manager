@@ -53,6 +53,11 @@
                         <th>Status</th>
                         <th>Date Procured</th>
                         <th>Expiry date</th>
+                        
+                        {% if request.user.is_superuser %}
+                            <th>Revoke</th>
+                        {% endif %}
+                            
                     </thead>
                     <tbody>
                         {% for key in keys %}
@@ -67,6 +72,11 @@
                             {% endif %}
                             <td>{{key.date_procured}}</td>
                             <td>{{key.expiry_date}}</td>
+                            
+                            {% if request.user.is_superuser %}
+                                <td><a href="{% url 'revoke' key.id %}"><button class="btn btn-danger btn-md">Revoke</button></a></td>
+                            {% endif %}
+                                
                         </tr>
                         {% endfor %}
                     </tbody>
