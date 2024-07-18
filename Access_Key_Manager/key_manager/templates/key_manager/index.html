@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 
+{% block title %}
+    Home
+{% endblock title %}
+    
+
 {% block content %}
 {% if has_keys %}
 <div class="page-container">
@@ -96,7 +101,7 @@
     {% else %}
     <div class="welcome-container">
         <div class="welcome-message">
-            <h2>Welcome, Username!</h2>
+            <h2>Welcome, {{request.user.username}} !</h2>
             <p>Thank you for logging in. You can purchase a new key by clicking the button below.</p>
             <button class="request-key-button" onclick="location.href='{% url 'key-request' %}'">Request Key</button>
         </div>

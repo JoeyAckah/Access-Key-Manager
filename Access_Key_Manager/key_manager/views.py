@@ -16,7 +16,6 @@ from .serializers import AccesskeySerializer
 
 
 
-
 def logout(request):
     auth.logout(request)
     return redirect('account_login')
@@ -47,13 +46,18 @@ def check_key(request, format=None):
     
 
 
-
 @login_required(login_url='account_login')
 def index(request):
-    has_keys = True if Accesskey.objects.filter(user=request.user).exists() else False
+    if Accesskey.objects.filter(user=request.user).exists():
+        has_keys = True    
+    else:
+        has_keys=False
     q = request.GET.get('q') if request.method == 'GET' else ''
     if q:
-        keys = Accesskey.objects.filter(Q(status__icontains=q), user=request.user) if not request.user.is_superuser else Accesskey.objects.filter(Q(status__icontains=q))
+        if request.user.is_superuser:
+            keys = Accesskey.objects.filter(Q(status__icontains=q))
+        else:
+            keys = Accesskey.objects.filter(Q(status__icontains=q), user=request.user) 
     else:
         try:
             active_key=Accesskey.objects.get(user=request.user, status='ACTIVE')
