@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'key_manager',
     'allauth',
-    'allauth.account'
+    'allauth.account',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -146,9 +147,11 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 # ACCOUNT_USER_MODEL_USERNAME_FIELD = 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+SIGNUP_REDIRECT_URL = ''
 
 ACCOUNT_FORMS = {
-    'signup': 'key_manager.forms.CustomSignUpForm'
+    'signup': 'key_manager.forms.CustomSignUpForm',
+    'login': 'key_manager.forms.CustomLoginForm'
 }
 
 
@@ -159,3 +162,13 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('ADDRESS')
 EMAIL_HOST_PASSWORD = os.environ.get('PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.ERROR: 'alert-danger',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning'
+}
