@@ -1,9 +1,13 @@
 <nav class="navbar">
-    <div class="navbar-logo">AKM</div>
-
+    <div class="navbar-logo"><a href="{% url 'index' %}" style="text-decoration: none; color:white">AKM</a></div>
     <div class="navbar-user">
-        <span class="username">John Doe</span>
-        <i class="fas fa-user"></i>
-        <a href="login1.html" class="logout-link">Logout</a>
+        
+        {% if request.user.is_authenticated %}
+        <span class="username">{{request.user.username | capfirst}} | </span>
+        <a href="{% url 'account_logout' %}" class="logout">Logout</a>
+        
+            
+        {% endif %}
+            
     </div>
 </nav>

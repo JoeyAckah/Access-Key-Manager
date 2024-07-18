@@ -2,78 +2,115 @@
 
 
 {% block content %}
-<div class="row p-4">
-    <div class="col float-end w-100">
-        
-        {% if user.is_authenticated %}
-         <h5>{{user.username}}
-
-             <a href="{% url 'account_logout' %}" class="float-end"><button class="btn btn-md btn-outline-primary"> Logout</button></a>
-         </h5>   
-        {% else %}
-        <a href="{% url 'account_login' %}" class="float-end"><button class="btn btn-md btn-outline-primary">Login</button></a>
-        {% endif %}
+{% if has_keys %}
+<div class="page-container">
+    <div class="sidebar">
+        <ul class="sidebar-links">
+            <li><a href="{% url 'index' %}">All Keys</a></li>
+            <li><a href="{% url 'index' %}?q=ACTIVE">Active Keys</a></li>
+            <li><a href="{% url 'index' %}?q=EXPIRED">Expired Keys</a></li>
+            <li><a href="{% url 'index' %}?q=REVOKED">Revoked Keys</a></li>
+        </ul>
+        <button class="request-key-button" onclick="location.href='{% url 'key-request' %}'">Request New Key</button>
     </div>
-</div>
-<div class="container-flex p-4">
-    <div class="row w-100">
+    
+    <div class="main-content">
         
-            
-        <div class="col-lg-3 vh-100">
-            <h5>Filter Keys</h5><hr>
-            <a href="{% url 'index' %}?q="><p class="mb-4">ALL</p></a>
-            <a href="{% url 'index' %}?q=revoked"><p class="mb-4">REVOKED</p></a>
-            <a href="{% url 'index' %}?q=expired"><p class="mb-4">EXPIRED</p></a>
-            <a href="{% url 'index' %}?q=active"><p class="mb-4">ACTIVE</p></a>
-            <div class="row w-100 mt-5">
-                <a href="{% url 'key-request' %}"><button class="btn btn-secondary w-100">New Key Request</button></a>
-            </div>
+        {% if user.is_superuser %}
+        <div class="search-container">
+            <form action="{% url 'check-active-key' %}" method="post">
+                {% csrf_token %}
+                <input type="email" id="search-bar" placeholder="Search email" name="email-search">
+                <button type="submit">Search</button>
+
+            </form>
         </div>
-        <div class="col-lg-9 vh-100">
-            <h1 class="display-6 mb-5">My Keys</h1>
-            <table class="table table-striped">
+            
+        {% endif %}
+            
+        <!-- <h2>Keys Management</h2> -->
+         
+        {% include 'key_manager/messages.html' %}
+            
+        <div class="keys-list">
+            <table>
                 <thead>
-                    <th>Key</th>
-                    <th>Status</th>
-                    <th>Date Procured</th>
-                    <th>Expiry date</th>
-                    
-                    {% if request.user.is_superuser %}
-                        <th>Revoke</th>
-                    {% endif %}
+                    <tr>
+                        <th>Access Key</th>
                         
+                        {% if request.user.is_superuser %}
+                            <th>User</th>
+                        {% endif %}
+                            
+                        <th>Status</th>
+                        <th>Procurement Date</th>
+                        <th>Expiry Date</th>
+                        
+                        {% if request.user.is_superuser %}
+                        <th>Action</th>
+                            
+                        {% endif %}
+                            
+                    </tr>
                 </thead>
                 <tbody>
-                    {% for key in keys %}
+                    
+                    {% for key in keys reversed %}
+                    
                     <tr>
                         <td>{{key.key}}</td>
-                        {% if key.status == 'ACTIVE' %}
-                        <td class="text-success fw-bolder">{{key.status}}</td>
-                        {% elif key.status == 'REVOKED' %}
-                        <td class="text-info fw-bolder">{{key.status}}</td>
-                        {% else %}
-                        <td class="text-danger fw-bolder">{{key.status}}</td>
+
+                        
+                        {% if request.user.is_superuser %}
+                            <td>{{key.user.username | capfirst}}</td>
                         {% endif %}
+                            
+                        
+                        {% if key.status == 'ACTIVE' %}
+                        
+                        <td style="color: green; font-weight:bolder">{{key.status}}</td>
+                        {% elif key.status == 'REVOKED' %}
+                        <td style="color: rgb(19, 0, 128); font-weight:bolder">{{key.status}}</td>
+                        {% else %}
+                        <td style="color: #ff0000; font-weight:bolder">{{key.status}}</td>
+
+                        {% endif %}
+                            
                         <td>{{key.date_procured}}</td>
                         <td>{{key.expiry_date}}</td>
                         
                         {% if request.user.is_superuser %}
-                            <td><a href="{% url 'revoke' key.id %}"><button class="btn btn-danger btn-md">Revoke</button></a></td>
+                        <td><button class="revoke-button" onclick="location.href='{% url 'revoke' key.id %}'">Revoke</button></td>
+                            
                         {% endif %}
                             
                     </tr>
                     {% endfor %}
+                        
+                    
                 </tbody>
             </table>
 
         </div>
-        
-
-
     </div>
-
-
+    {% else %}
+    <div class="welcome-container">
+        <div class="welcome-message">
+            <h2>Welcome, Username!</h2>
+            <p>Thank you for logging in. You can purchase a new key by clicking the button below.</p>
+            <button class="request-key-button" onclick="location.href='{% url 'key-request' %}'">Request Key</button>
+        </div>
+    </div>    
+    
 </div>
+{% endif %}
+<script>
+    function hideMessage() {
+        var message = document.getElementById('message')
+        message.style.display = 'none';
+    }
+    setTimeout(hideMessage, 2000)
+</script>
 {% endblock content %}
     
     

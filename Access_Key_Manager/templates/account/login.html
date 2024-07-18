@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="container">
+    <div class="info">
+        <h1>ACCESS KEY MANAGER</h1>
+        <p>We create the avenue to access all your keys easier and faster.Purchase and access all your acesss keys to activate your school's account.</p>
+    </div>
+    <div class="login-form">
+        
+        <form action="{% url 'account_login' %}" method="post">
+            {% csrf_token %}
+            <h2>Login</h2>
+            <p>{{form.errors}}</p>
+            
+            {{form.login.label}}
+            {{form.login}}
+
+            {{form.password.label}}
+            {{form.password}}
+
+            <div class="remember-me">
+                
+                {{form.remember}}
+                {{form.remember.label}}
+                
+            </div>
+            
+            <button type="submit">Login</button>
+            <div class="form-links">
+                <a href="{% url 'account_reset_password' %}">Forgot Password?</a>
+                <a href="{% url 'account_signup' %}">Create an Account</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+    

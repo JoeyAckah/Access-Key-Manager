@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from allauth.account.forms import SignupForm
+
+from allauth.account.forms import SignupForm, LoginForm
 
 
 class CustomSignUpForm(SignupForm):
@@ -23,3 +22,8 @@ class CustomSignUpForm(SignupForm):
         user.save()
         return user
     
+
+class CustomLoginForm(LoginForm):
+        login = forms.EmailField(label='Email', required=True, widget=forms.EmailInput(attrs={'id': 'email'}))
+        password = forms.CharField(label='Password', required=True, widget=forms.PasswordInput(attrs={'id':'password'}))
+        remember = forms.BooleanField(label='Remember Me', required=False, widget=forms.CheckboxInput(attrs={'id':'remember-me'}))

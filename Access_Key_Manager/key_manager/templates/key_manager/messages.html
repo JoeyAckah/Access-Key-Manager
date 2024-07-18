@@ -1,0 +1,13 @@
+
+
+{% if messages %}
+    
+    {% for message in messages %}
+        <div class="messages-div" id="messages" >
+            <div class="col-auto alert {{message.tags}} mx-auto mt-3 mb-3" id="message">
+                {{message}}
+            </div>
+        </div>
+    {% endfor %}
+
+{% endif %}

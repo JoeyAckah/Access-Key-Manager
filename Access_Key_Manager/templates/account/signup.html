@@ -3,42 +3,37 @@
 
 {% block content %}
 <div class="signup-container">
-    <form class="signup-form" action="{% url 'account_signup' %}" method="post" >
-        {% csrf_token %}
-        <h2>Sign Up</h2>
-        {{form.non_field_errors}}
-        
-        {% for field in form %}
-        <div class="S_input-group">
-            {{field.label_tag}}
-            {{field}} {{field.errors}}
-            <span><small>{{field.help_text}}</small></span>
-        </div>
+    <div class="signup-form">
+        <form action="{% url 'account_signup' %}" method="post" >
+            {% csrf_token %}
+            <!-- <h2>Sign Up</h2>
+            {{form.non_field_errors}}
             
-        {% endfor %}
+            {% for field in form %}
             
-        
-        {% comment %}
-            
-        <div class="S_input-group">
-            {{form.email.label_tag}}
-            {{form.email}}
-            {{form.email.errors}}
-        </div>
-        <div class="S_input-group">
-            {{form.password1.label_tag}}
-            {{form.password1}}
-            <span><small>{{form.password1.help_text}}</small></span>
-            {{form.password1.errors}}
-        </div>
-        <div class="S_input-group">
-            {{form.password2.label_tag}}
-            {{form.password2}}
-        </div>
-        {% endcomment %}
-            
-        <button type="submit">Sign Up</button>
-    </form>
+                {{field.label_tag}}
+                {{field}} {{field.errors}}
+                <span><small>{{field.help_text}}</small></span>
+           
+                
+            {% endfor %} -->
+                
+            <form>
+                <h2>Sign Up</h2>
+                
+                {% for field in form %}
+                    {{field.label}}
+                    {{field}}
+                    {{field.errors}}
+                    <span><small id="field-help-text">{{field.help_text}}</small></span>
+                {% endfor %}
+                
+                <button type="submit">Sign Up</button>
+            </form>
+                
+         
+
+    </div>
 </div>
 {% endblock content %}
     

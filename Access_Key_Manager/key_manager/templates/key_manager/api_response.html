@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="confirmation-container">
+    <div class="response-box">
+
+        <h4>API Response for {{ email }}</h4> <br>
+        
+            <div >
+
+                <ul>
+                    {% for key, value in response.items %}
+                        <li style="list-style: none;">{{ key }}: <span style="float: inline-end;">{{ value }}</span> </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        
+    </div>
+    
+    
+    
+</div>
+{% endblock content %}
+    

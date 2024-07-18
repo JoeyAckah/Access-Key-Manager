@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="confirmation-container">
+    <div class="confirmation-box">
+        <h2>Are you sure you want to log out?</h2>
+        <div class="confirmation-buttons">
+            <button class="cancel-button" onclick="location.href='{% url 'index' %}'">Cancel</button>
+            <button class="logout-button" onclick="location.href='{% url 'logout' %}'">Logout</button>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    
