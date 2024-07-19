@@ -36,7 +36,7 @@ This project is a Key Manager Application built with Django framework . The app 
 - Logged in users can view their list of requested(purchased) Access keys.
 - Logged in users have info on the status(Active,Expired,Revoked) of their requested(purchased) keys.
 - Logged in users have info on the details(date procured,expiry date) of each access key they have.
-- Logged in users can't request can for an active key if they have an existing active key.
+- Logged in users can't request for an active key if they have an existing active key.
 
 
   **Admin Functionalities**
