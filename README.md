@@ -1,6 +1,6 @@
 # Access Key Manager
 
-This project is Key Manager Application built with Django framework . The app allows users (schools) to sign up, log in ,request for a key to activate their school's account and to know their status of their requested keys (i.e Active,Expired or Revoked). Adminstrators possess an additional privileges to manually revoke a key a pursed key and access an end point
+This project is a Key Manager Application built with Django framework . The app allows users (schools) to sign up, log in ,request for a key to activate their school's account and to know their status of their requested keys (i.e Active,Expired or Revoked). Adminstrators possess an additional privileges to manually revoke a key a pursed key and access an end point
 ## Features
 
 - User authentication (signup, login, logout) with email verification
