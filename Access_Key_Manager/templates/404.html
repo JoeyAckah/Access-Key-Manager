@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;1,100;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="shorcut icon" href="{% static 'key_manager/images/logo.ico'  %}">
+    <style>
+    
+    body {
+    font-family: Poppins, Helvetica Neue, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+}
+
+.not-found-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.not-found-image {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+}
+
+.not-found-content h1 {
+    font-size: 96px;
+    margin: 0;
+    color: #2a9d8f;
+}
+
+.not-found-content p {
+    font-size: 24px;
+    margin: 20px 0;
+    color: #2a9d8f;
+    
+}
+
+.home-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #2a9d8f;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.home-button:hover {
+    background-color: #21867a;
+}
+
+</style>
+</head>
+
+<body>
+    <div class="not-found-container">
+        <img src="{% static 'key_manager/images/sad.jpg' %}" alt="404 Page Not Found" class="not-found-image">
+        <div class="not-found-content">
+            <h1>404</h1>
+            <p>Oops! The page you are looking for does not exist.</p>
+            <a href="{% url 'index' %}" class="home-button">Go to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
