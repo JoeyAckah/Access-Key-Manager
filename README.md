@@ -51,7 +51,7 @@ Default Superuser details
 
 -email : `josepharmoo415@gmail.com`
 
--password : `admin`
+-password : `power448`
 
 -link : https://jaarmoo.pythonanywhere.com
 
